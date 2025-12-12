@@ -6,10 +6,10 @@
   conf = import ./config.nix {inherit pkgs lib;};
 in
   pkgs.symlinkJoin {
-    name = "nu";
+    name = "nushell";
     paths = [pkgs.nushell];
     buildInputs = [pkgs.makeWrapper];
-    passthru.shellPath = "/bin/nix";
+    passthru.shellPath = "/bin/nu";
     meta.mainProgram = "nu";
 
     postBuild = ''

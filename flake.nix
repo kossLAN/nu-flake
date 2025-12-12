@@ -15,7 +15,10 @@
       (system: fn system nixpkgs.legacyPackages.${system});
   in {
     overlays.default = final: prev: {
-      nushell = prev.callPackage ./nix/wrapNu.nix;
+      nushell = import ./nix/wrapNu.nix {
+        pkgs = final;
+        lib = nixpkgs.lib;
+      };
     };
 
     packages = forEachSystem (system: pkgs: rec {
