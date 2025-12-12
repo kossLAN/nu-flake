@@ -1,16 +1,16 @@
 {
   pkgs,
   lib,
+  prevNushell,
   ...
 }: let
   conf = import ./config.nix {inherit pkgs lib;};
 in
   pkgs.symlinkJoin {
-    name = "nushell";
-    paths = [pkgs.nushell];
+    paths = [prevNushell];
     buildInputs = [pkgs.makeWrapper];
-    passthru.shellPath = "/bin/nu";
-    meta.mainProgram = "nu";
+
+    inherit (prevNushell) version src cargoHash pname passthru meta;
 
     postBuild = ''
       mkdir -p $out/etc/nu-config
