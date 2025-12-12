@@ -1,6 +1,6 @@
 # nu-flake
 
-An extensible nu-shell wrapper, made using nix flakes.
+An extensible nu-shell wrapper based on my original [zsh-flake](https://github.com/kossLAN/zsh-flake) with some notable improvements, made using nix flakes.
 
 ## Why?
 
