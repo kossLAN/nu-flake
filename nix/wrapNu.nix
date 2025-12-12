@@ -16,13 +16,14 @@ in
       mkdir -p $out/etc/nu-config
       cp -r ${../nu-config}/* $out/etc/nu-config
 
-      cp ${pkgs.writeText "init.nu" /*nu*/ ''
-        # load plugins
-        ${lib.concatMapStrings (plugin: ''
-            plugin add ${plugin}/bin/${plugin.pname}
-          '')
-          conf.plugins}
+      # create a plugin registry file
+      ${lib.getExe prevNushell} \
+          --plugin-config "$out/etc/nu-config/plugin.msgpackz" \
+          --commands '${
+            lib.concatStringsSep "; " (map (plugin: "plugin add ${lib.getExe plugin}") conf.plugins)
+      }'
 
+      cp ${pkgs.writeText "init.nu" /*nu*/ ''
         # source non nix dependent nu-config
         source ./config.nu
 
@@ -32,6 +33,7 @@ in
 
       wrapProgram $out/bin/nu \
         --prefix PATH : "${lib.makeBinPath conf.extraPackages}" \
+        --add-flags "--plugin-config $out/etc/nu-config/plugin.msgpackz" \
         --add-flags "--config $out/etc/nu-config/init.nu"
     '';
   }

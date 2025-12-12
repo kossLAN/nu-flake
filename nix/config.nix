@@ -12,12 +12,9 @@ in {
 
   plugins = with pkgs.nushellPlugins; [
     gstat # git info
-    highlight # syntax highlighting 
   ];
 
   extraConfig = /*nu*/ ''
-    # any nix dependent nushell scripting can go here.
-
     # integrate carapace
     source ${
       pkgs.runCommand "carapace-nushell-config.nu" {} ''
