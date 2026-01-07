@@ -2,6 +2,7 @@
   pkgs,
   lib,
   prevNushell,
+  extraInit ? "",
   ...
 }: let
   conf = import ./config.nix {inherit pkgs lib;};
@@ -26,6 +27,8 @@ in
       cp ${pkgs.writeText "init.nu" /*nu*/ ''
         # source non nix dependent nu-config
         source ./config.nu
+
+        ${extraInit}
 
         # source nix inline configuration
         ${conf.extraConfig}

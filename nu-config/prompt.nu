@@ -16,7 +16,8 @@ def prompt-left [] {
 
 
 def prompt-right [] {
-    let git_info = (gstat)
+    # https://github.com/nushell/nushell/issues/15884 to disable expensive calculations
+    let git_info = (gstat --no-tag)
 
     if $git_info.repo_name == "no_repository" {
         return ""
